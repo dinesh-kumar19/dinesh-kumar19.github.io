@@ -1,0 +1,81 @@
+<h2 class="text-center p-2 text-primary mt-5 fs-1">CarrerLink</h2>
+
+    <div class="container d-flex justify-content-center align-items-center">
+      <div class="login-form bg-white p-4 rounded shadow-lg">
+      <form [formGroup]="adminLoginForm">
+        <h2 class="text-center mb-4">Admin Login</h2>
+
+        <div class="mb-3">
+          <label for="adminemail" class="form-label mt-3">Email</label>
+          <input
+            type="email"
+            class="form-control border border-dark p-3"
+            id="adminEmail"
+            formControlName="adminEmail_id"
+            placeholder="Enter Email ID"
+            required
+          />
+          <div
+            *ngIf="
+              adminLoginForm.controls.adminEmail_id.invalid &&
+              (adminLoginForm.controls.adminEmail_id.dirty ||
+                adminLoginForm.controls.adminEmail_id.touched)
+            "
+          >
+            <small class="text-danger">Please enter a valid email.</small>
+          </div>
+        </div>
+
+        <div class="mb-1">
+          <label for="adminpassword" class="form-label mt-3">Password</label>
+          <div class="position-relative">
+          <input
+            [type]="showLoginPassword ? 'text' : 'password'"
+            id="adminPassword"
+            class="form-control border border-dark p-3"
+            aria-describedby="passwordHelpBlock"
+            formControlName="admin_Password"
+            placeholder="Enter Password"
+          />
+          <i
+              class="fa"
+              [ngClass]="showLoginPassword ? 'fa-eye-slash' : 'fa-eye'"
+              (click)="showLoginFormPassword()"
+              style="
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
+                cursor: pointer;
+              "
+            >
+            </i>
+            </div>
+          <div
+            *ngIf="
+              adminLoginForm.controls.admin_Password.invalid &&
+              (adminLoginForm.controls.admin_Password.dirty ||
+              adminLoginForm.controls.admin_Password.touched)
+            "
+          >
+            <small class="text-danger"
+              >Password must be at least 6 characters long.</small
+            >
+          </div>
+        </div>
+      
+      <div class="text-center mt-4">
+      <button
+        type="button"
+        class="btn btn-primary mt-4 mb-5 w-50"
+        [disabled]="adminLoginForm.invalid"
+        (click)="logIn()"
+      >
+        Login
+      </button>
+      </div>
+      </form>
+      </div>
+      
+    </div>
+    

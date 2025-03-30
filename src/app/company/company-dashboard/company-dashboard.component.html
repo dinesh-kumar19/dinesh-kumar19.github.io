@@ -1,0 +1,37 @@
+<main>
+  <div class="container align-top">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <p class="fs-2 fw-bold text-center mb-4">Company Details</p>
+        <div *ngIf="currentCompany" class="profile-card p-4 rounded shadow-sm bg-light">
+          <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start">
+            <div class="flex-shrink-0 me-md-4 text-center text-md-start mb-3 mb-md-0">
+          <img
+              [src]="currentCompany.logoUrl"
+              alt="Profile"
+              class="profile-pic rounded-circle border shadow-sm"
+              
+            />
+            </div>
+            <div class="flex-grow-1">
+              <p class="fw-bold mb-2 fs-5">Name: {{ currentCompany.company_name }}</p>
+              <p class="fw-bold mb-3 fs-5"> Email: {{ currentCompany.email_id }}</p>
+              <p class="text-muted"><span class="fw-bold">Company Description: </span> {{ currentCompany.company_description }}</p>
+            </div>
+          </div>
+          <hr class="my-4">
+          <div class="profile-info">
+            <p class="fs-3">Basic Information</p>
+            <p><strong>Name: </strong> {{ currentCompany.company_name }}</p>
+            <p><strong>Email: </strong> {{ currentCompany.email_id }}</p>
+            <p><strong>Website: </strong> <a [href]="currentCompany.company_website" target="_blank"> {{ currentCompany.company_website }} </a></p>
+            <p><strong>Phone No:</strong> {{ currentCompany.phone_no }}</p>
+          </div>
+        </div>
+        <div *ngIf="!currentCompany" class="text-center">
+          <p>Loading Company details...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </main>

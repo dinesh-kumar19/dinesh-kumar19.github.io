@@ -1,0 +1,40 @@
+<section>
+  <p class="fs-2 fw-bold text-center top-align">Applied Jobs</p>
+  <div *ngIf="appliedJobs.length === 0" class="text-center mt-4">
+    <p>No Job Applications found.</p>
+  </div>
+  <div class="container mt-4 table-responsive">
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <table *ngIf="appliedJobs.length > 0" class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>S.NO</th>
+          <th>User Name</th>
+          <th>Email ID</th>
+          <th>Company Name</th>
+          <th>Job Title</th>
+          <th>Applied Date</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let application of appliedJobs; let i = index">
+        <tr>
+          <td>{{ (currentPage - 1) * limit + i + 1 }}</td>
+          <td>{{ application.name }}</td>
+          <td>{{ application.email_id}}</td>
+          <td>{{ application.company_name }}</td>
+          <td>{{ application.jobtitle }}</td>
+          <td>{{ application.application_date }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Pagination Controls -->
+    <div class="pagination d-flex justify-content-end">
+      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+
+  </div>
+</section>

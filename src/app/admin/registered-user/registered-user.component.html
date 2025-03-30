@@ -1,0 +1,32 @@
+<div class="container table-responsive">
+    <p class="fs-2 fw-bold text-center mb-4 top-align">Registered Users</p>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>S.NO</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{ (currentPage - 1) * limit + i + 1 }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email_id }}</td>
+          <td>{{ user.phone_no }}</td>
+          <td><i (click)="deleteUserByAdmin(user.user_registerid)" class="fas fa-trash-alt text-danger delete-icon"></i></td>
+        </tr>
+      </tbody>
+    </table>
+    
+  
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+</div>
+  

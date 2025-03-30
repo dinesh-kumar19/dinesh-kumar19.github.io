@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  
+.login-form {
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+.btn {
+    transition: all 0.3s ease;
+  }
+.btn:hover {
+    transform: scale(1.05);
+  } 
+@media (max-width: 768px) {
+ .login-form {
+    padding: 20px;
+    max-width: 90%;
+ }
+} 
+@media (max-width: 576px) {
+ .login-form {
+    padding: 15px;
+    max-width: 95%;
+ }
+}
+  

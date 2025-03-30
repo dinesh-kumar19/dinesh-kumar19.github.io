@@ -1,0 +1,236 @@
+<div class="container align-top">
+  <h2 class="fs-2 fw-bold text-center mb-4">Post a Job</h2>
+
+  <form [formGroup]="jobForm" class="row g-4">
+    <!-- Category Section -->
+    <fieldset class="border p-4 rounded-3">
+      <legend class="fs-4 mb-4">Category</legend>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="selectCategory">select category</label>
+          <select formControlName="categoryname" class="form-select" required>
+            <option selected disabled value="">--select category--</option>
+            <option>Software Development & IT</option>
+            <option>Marketing & Sales</option>
+            <option>Design & Creative</option>
+            <option>Business & Management</option>
+            <option>Healthcare</option>
+            <option>Education</option>
+            <option>Engineering</option>
+            <option>Customer Service</option>
+            <option>Finance & Accounting</option>
+            <option>Legal</option>
+            <option>Human Resources</option>
+            <option>Construction & Real Estate</option>
+            <option>Logistics & Supply Chain</option>
+            <option>Hospitality & Travel</option>
+            <option>Manufacturing</option>
+            <option>other</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="categoryImage">category Image</label>
+        <input
+          type="file"
+          class="form-control"
+          id="categoryImage"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </fieldset>
+    <hr />
+
+    <!-- company Details Section-->
+    <fieldset class="border p-4 rounded-3">
+      <legend class="fs-4 mb-4">Company Details</legend>
+      <div class="row" *ngIf="companyDetails">
+        <div class="col-md-4">
+          <label for="companyname" class="form-label">Company Name</label>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="companyname"
+            placeholder="Company name"
+            readonly
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="websiteurl" class="form-label">Website URL</label>
+          <input
+            type="url"
+            class="form-control"
+            formControlName="company_website"
+            placeholder="Company Website"
+            readonly
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="companydescription" class="form-label"
+            >Company Description</label
+          >
+          <textarea
+            id="companyDescription"
+            class="form-control"
+            rows="3"
+            placeholder="Enter company description"
+            formControlName="companyDescription"
+            readonly
+          ></textarea>
+        </div>
+      </div>
+    </fieldset>
+    <hr>
+
+    <!-- Job Details Section -->
+    <fieldset class="border p-4 rounded-3">
+      <legend class="fs-4 mb-4">Job Details</legend>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label for="jobtitle" class="form-label">Job Title</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="jobtitle"
+            placeholder="Enter job title"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="joblogo" class="form-label">Job Logo</label>
+          <input
+            type="file"
+            class="form-control"
+            (change)="onJobLogoSelected($event)"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="job_location"
+            placeholder="Enter location"
+          />
+        </div>
+      </div>
+
+      <!-- Second Row -->
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <label for="salaryrange" class="form-label">Salary Range</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="salary"
+            placeholder="e.g., $50,000 - $70,000"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="experience" class="form-label"
+            >Experience Required</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="experience"
+            placeholder="Experience (e.g., 2-5 years)"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="qualifications" class="form-label">Qualifications</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="qualifications"
+            placeholder="e.g., Bachelors in CS"
+          />
+        </div>
+      </div>
+
+      <!--Third Row  -->
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <label for="skills" class="form-label">Skills Required</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="skillsrequired"
+            placeholder="e.g., JavaScript, Node.js"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="numberofvacanies" class="form-label"
+            >Number of Vacancies</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="vacancy_required"
+            placeholder="Enter number of vacancies"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="keyresposibilities" class="form-label"
+            >Key Responsibilities</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="keyresponse_1"
+            placeholder="Enter key responsibilities"
+          />
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <label for="applicationdeadline" class="form-label"
+            >Application Deadline</label
+          >
+          <input
+            type="date"
+            class="form-control"
+            formControlName="applicationDeadline"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="jobdescription" class="form-label"
+            >Job Description</label
+          >
+          <textarea
+            class="form-control"
+            rows="3"
+            formControlName="jobdescription"
+            placeholder="Enter job description..."
+          ></textarea>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Employment Type</label>
+          <div class="d-flex flex-wrap">
+            <div *ngFor="let type of employmentTypes" class="form-check me-3">
+              <input
+                type="checkbox"
+                [value]="type"
+                (change)="onCheckboxChangeJobType($event)"
+                class="form-check-input"
+              />
+              <label class="form-check-label">{{ type }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button
+        class="btn btn-success px-5"
+        type="submit"
+        [disabled]="jobForm.invalid"
+        (click)="postJob()"
+      >
+        Submit form
+      </button>
+    </div>
+  </form>
+</div>

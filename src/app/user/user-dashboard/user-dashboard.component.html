@@ -1,0 +1,61 @@
+<header>
+  <app-header></app-header>
+</header>
+
+<main>
+  <section class="dashboard-top">
+    <div *ngIf="userJobs.length === 0" class="text-center mt-4">
+      <p>No job applications found.</p>
+    </div>
+    <div class="container mt-5 table-responsive">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <h2 class="">APPLIED JOBS</h2>
+      <table class="table table-bordered table-hover" *ngIf="userJobs.length > 0">
+        <thead>
+          <tr>
+            <th>S.NO</th>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Applied Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let jobs of userJobs; let i = index" [ngClass]="{'rejected': jobs.isRejected}">
+            <td>{{ (currentPage - 1) * limit + i + 1 }}</td>
+            <td>{{ jobs.jobtitle }}</td>
+            <td>{{ jobs.companyname }}</td>
+            <td>{{ jobs.job_location}}</td>
+            <td>{{ jobs.application_date }}</td>
+            <td>
+              <button type="button" class="btn" 
+              [ngClass]="{'btn-danger': jobs.job_status === 'Rejected', 
+                          'btn-success': jobs.job_status === 'Accepted',
+                          'btn-warning': jobs.job_status === 'Pending',
+                          'btn-secondary': jobs.job_status === 'Under Review'}">
+                {{ jobs.job_status }}
+            </button>
+            </td>
+            <td>
+              <i (click)="deleteUserApplication(jobs.job_applicationID)" class="fas fa-trash-alt text-danger" style="cursor: pointer;"></i>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <div class="pagination d-flex justify-content-end">
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <app-footer></app-footer>
+</footer>

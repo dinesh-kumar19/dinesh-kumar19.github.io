@@ -1,0 +1,60 @@
+<header>
+    <app-company-header></app-company-header>
+</header>
+<main>
+<div class="sidebar">
+    <nav class="nav flex-column">
+      <ul>
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['dashboard']">
+            <span class="icon">
+              <i class='bx bxs-dashboard'></i>
+            </span>
+            
+            <span class="description">Dashboard</span>
+            </a>
+        </li>
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['applications']">
+            <span class="icon">
+              <i class='bx bx-spreadsheet '></i>
+            </span>
+            
+            <span class="description">All Applications</span>
+            </a>
+        </li>
+        <li>              
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['post-job']">
+            <span class="icon">
+              <i class='bx bx-send'></i>
+            </span>
+            
+            <span class="description">Post Job</span>
+            </a>
+        </li>
+        <li>              
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['posted-jobs']">
+            <span class="icon">
+              <i class='bx bx-paper-plane' ></i>
+            </span>
+            
+            <span class="description">Posted Job</span>
+            </a>
+        </li>        
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" (click)="logout()">
+            <span class="icon">
+              <i class='bx bx-log-in-circle'></i>
+            </span>
+            
+            <span class="description">Logout</span>
+            </a>
+        </li>
+      </ul>
+
+    </nav>
+  </div>
+  <section class="main-content">
+  <router-outlet></router-outlet>
+  </section>
+</main>

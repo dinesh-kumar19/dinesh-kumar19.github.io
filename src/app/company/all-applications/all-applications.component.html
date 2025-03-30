@@ -1,0 +1,61 @@
+<div class="container align-top">
+  <section>
+    <p class="fs-2 fw-bold text-center">Applied Jobs</p>
+    <div *ngIf="userAppliedJobs.length === 0" class="text-center mt-4">
+      <p>No job applications found.</p>
+    </div>
+    <div class="container mt-5 table-responsive">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <table class="table table-bordered table-hover" *ngIf="userAppliedJobs.length > 0">
+        <thead>
+          <tr>
+            <th>S.NO</th>
+            <th>Job Title</th>
+            <th>Applicant Name</th>
+            <th>Applicant Email</th>
+            <th>Application Date</th>
+            <th>Resume</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let job of userAppliedJobs; let i = index">
+          <tr>
+            <td>{{ (currentPage - 1) * limit + i + 1 }}</td>
+            <td>{{ job.jobtitle }}</td>
+            <td>{{ job.name }}</td>
+            <td>{{ job.email_id }}</td>
+            <td>{{ job.application_date }}</td>
+            <td>
+              <a target="_blank" *ngIf="job.resume_path" [href]="job.resume_path" download>
+                <i class='bx bxs-file-pdf text-danger'></i> Download Resume
+              </a>
+              <span *ngIf="!job.resume_path">No Resume</span>
+            </td>
+<!--             
+            <td><i class='bx bxs-file-pdf text-danger'></i>{{ job.resume_path }}</td>-->
+            <td> 
+              <select [value]="job.job_status" (change)="updateJobStatus(job.job_applicationID, $event)">
+                <option value="Pending" disabled>Applied</option>
+                <option value="Under Review">Under Review</option>
+                <option value="Accepted">Accepted</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </td>
+            <td>
+              <!-- <div><i class='bx bxs-edit'></i></div> -->
+              <i (click)="deleteApplication(job.job_applicationID)"   class="fas fa-trash-alt text-danger" style="cursor: pointer;"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination d-flex justify-content-end">
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+    </div>
+  </section>
+</div>

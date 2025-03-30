@@ -1,0 +1,40 @@
+<div class="container align-top">
+    <p class="fs-2 fw-bold text-center mb-4">Active Job Postings</p>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>S.NO</th>
+          <th>Job Title</th>
+          <th>Salary</th>
+          <th>Expire Date</th>
+          <th>Company Email</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of activePostedJobs; let i = index">
+          <td>{{ (currentPage - 1) * limit + i + 1 }}</td>
+          <td>{{ job.jobtitle }}</td>
+          <td>{{ job.salary }}</td>
+          <td>{{ job.expiredate }}</td>
+          <td>{{ job.email_id }}</td>
+          <td><button type="button" class="btn" [ngClass]="{
+            'btn-warning': job.jobposting_status === 'pending',
+            'btn-success': job.jobposting_status === 'approved',
+            'btn-danger': job.jobposting_status === 'rejected'
+          }">{{ job.jobposting_status | titlecase }}</button></td>
+          <td>
+            <i (click)="deleteJob(job.jobposting_id)" class="fas fa-trash-alt text-danger rejected" style="cursor: pointer;"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination d-flex justify-content-end">
+      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+ 
+  

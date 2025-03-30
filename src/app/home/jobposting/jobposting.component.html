@@ -1,0 +1,183 @@
+<header>
+    <app-header></app-header>
+  </header>
+
+  <section>
+    <!-- <p style="margin-top: 100px;"></p> -->
+    <div class="container-fluid" style="margin-top: 80px;">
+    <div class="card mb-3 job-card mt-4">
+        <div *ngFor="let job of jobPosting">
+          <div class="card-body mx-3 mx-md-5">
+            <div class="job-top-icon d-flex">
+            <img
+                  [src]="'http://localhost:3000/uploads/jobLogo/' + job.imageUrl"
+                  alt="CategoryImage"
+                  width="75"
+                  height="75"
+                  class="job-icon mb-3 mx-3"
+                />
+            <div class="job-top-content d-flex flex-column">
+            <p class="select_category mx-3 fs-5">{{ job.jobtitle }}</p>
+            <p class="mx-3 fs-5">{{job.companyname}},{{job.job_location}}</p>
+            
+            </div>
+            </div>
+            <!-- <div class="d-flex flex-wrap my-3 text-dark-emphasis">
+              <p class="mx-2"><i class="fa-solid fa-briefcase mx-2"></i>{{job.companyname}}</p>
+              <p class="mx-2">
+                <i class="fa-solid fa-location-dot mx-2"></i>{{ job.job_location }}
+              </p>
+              <p><i class="fa-solid fa-dollar-sign mx-2"></i>{{ job.salary }}</p>
+              <p>
+                <i class="fa-regular fa-calendar-days mx-2"></i>{{ job.dateposted }}
+              </p>
+            </div> -->
+            <div class="d-flex flex-wrap">
+              <!-- <p class="job-type p-1 text-center mx-1">Part Time</p> -->
+              <!-- <p class="job-type p-1 text-center bg-info mx-1">Urgent</p> -->
+            </div>
+      
+            <div class="d-flex justify-content-end mt-3">
+              <div *ngIf="!jobPostingLoaded">Loading job postings...</div>
+              <div *ngIf="jobPostingLoaded">
+              <button
+                type="button"
+                class="btn job-apply p-3"
+                [ngClass]="job.isApplied ? 'btn-success' : 'btn-primary' "
+                [disabled]="job.isApplied" 
+                style="width: 200px"
+                (click)="applyForJob(job.jobposting_id)"
+              >
+              {{ job.isApplied ? 'Applied' : 'Apply for Job' }}
+              </button>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div *ngFor="let job of jobPosting">
+      
+          <div class="body-content mb-3">
+            <div class="container-fluid job_des">
+              <div class="row">
+                <div class="col-lg-8 col-md-12">
+                  <!-- <p class="h3">About the Job<p> -->
+                    
+                  <div>
+                    <h2 class="fs-3">Job Description</h2>
+                    <p class="mt-4 fs-5" style="line-height: 1.5;">
+                      {{ job.jobdescription }}
+                    </p>
+                  </div>
+                  <div>
+                    <h2 class="fs-3">Key Responsibilities</h2>
+                    <ul class="mt-4">
+                      <li class="fs-5" style="line-height: 1.5;">
+                        {{ job.keyresponse_1 }}
+                      </li>
+                      <!-- <li>
+                        {{ job.keyresponse_2 }}
+                      </li> -->
+                    </ul>
+                  </div>
+          
+                  <div>
+                    <h2 class="fs-3">Skill & Qualifications</h2>
+                    <ul class="mt-4">
+                      <li class="fs-5" style="line-height: 1.5;">
+                        {{ job.skillsrequired }}
+                      </li>
+                      <li class="fs-5" style="line-height: 1.5;">
+                        {{ job.qualifications }}
+                      </li>
+                    </ul>
+                  </div>
+                  
+                </div>
+                <div class="col-lg-3 mt-3">
+                  <div class="card job-overview-card">
+                    <div class="card-body">
+                      <h4 class="pb-3">Job Overview</h4>
+                      <hr />
+                      <div class="d-flex">
+                        <i class="fa-regular fa-building fs-5 mx-3"></i>
+                        <p>
+                          Company name:<br />
+                          {{ job.companyname }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-solid fa-location-dot fs-5 mx-3"></i>
+                        <p>
+                          Location:<br />
+                          {{ job.job_location }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-solid fa-desktop fs-5 mx-3"></i>
+                        <p>
+                          Job Title:<br />
+                          {{ job.jobtitle }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-solid fa-calendar fs-5 mx-3"></i>
+                        <p>Date Posted:<br />{{ job.dateposted }}</p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-solid fa-hourglass-end fs-5 mx-3"></i>
+                        <p>
+                          Expiration date:<br />
+                          {{ job.expiredate }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-solid fa-user fs-5 mx-3"></i>
+                        <p>
+                          Employee Type:<br />
+                          {{ job.employeetype }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-solid fa-book fs-5 mx-3"></i>
+                        <p>
+                          Qualifications:<br />
+                          {{ job.qualifications }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-solid fa-suitcase fs-5 mx-3"></i>
+                        <p>
+                          Experience:<br />
+                          {{ job.experience }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-regular fa-money-bill-1 fs-5 mx-3"></i>
+                        <p>
+                          Salary:<br />
+                          {{ job.salary }}
+                        </p>
+                      </div>
+                      <div class="d-flex">
+                        <i class="fa-regular fa-money-bill-1 fs-5 mx-3"></i>
+                        <p>
+                          Skills:<br />
+                          {{ job.skillsrequired }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+  </section>
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+  

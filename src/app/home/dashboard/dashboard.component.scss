@@ -1,0 +1,23 @@
+// card-image style
+.icon-style-1{
+    border: 1px solid;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: rgb(187, 201, 220);
+}
+.icon-style-2{
+    border: 1px solid;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: rgb(230, 236, 230);
+}
+.card-body{
+    background-color: whitesmoke;
+}
+// logout
+
+.logout-style,a:hover{
+    cursor: pointer;
+}

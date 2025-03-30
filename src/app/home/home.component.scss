@@ -1,0 +1,128 @@
+// top search bar style
+.top_content{
+    background-image: url(/assets/homecard2.jpg);
+    width: 100%;
+    height: 580px;
+    background-color: rgba(197, 224, 221, 0.945);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    padding-top: 20px;
+}
+.top_content_align{
+    padding: 170px 0 0 60px ;
+}
+.top_content_1{
+  font-weight: 500;
+  font-size: 70px;
+  color: #153352;
+  line-height: 1.4;
+}
+.new-job{
+  color: rgb(15, 84, 30); 
+  font-size: 80px
+}
+.category-style {
+  font-size: 22px;
+  font-weight: 500;
+  padding-top: 20px;
+  color: #153352;
+}
+.category-style:hover{
+  cursor: pointer;
+  color: green;
+}
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  transition: all 0.3s ease;  
+}
+.job-icon {
+  border-radius: 20px; 
+  padding: 8px;
+  background-color: #fff;
+  border: 0px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.browse-btn{
+  padding: 15px;
+  width: 300px;
+}
+.suggestion-list {
+  z-index: 9999;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%; 
+  white-space: nowrap; 
+}
+.suggestion-list-item {
+  padding: 10px;
+  cursor: pointer;
+  white-space: normal;
+}
+
+.suggestion-list-item:hover {
+  background-color: #f1f1f1;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: scale(1.03);
+  transition: all 0.3s ease;
+}
+.suggestion-list::-webkit-scrollbar {
+  width: 8px;
+}
+.suggestion-list::-webkit-scrollbar-thumb {
+  background-color: #a4a9ad;
+  border-radius: 4px;
+  border: 2px solid white;
+}
+.suggestion-list::-webkit-scrollbar-thumb:hover {
+  background-color: #0056b3;
+}
+.suggestion-list::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 4px;
+}
+@media only screen and (max-width: 768px) {
+.top_content{
+    background-image: url(/assets/jobbgmob_2.jpg);
+    background-color: #e2e3e3;
+    height: auto;
+    margin-top: 30px;
+}
+.top-secondline{
+  font-size: 12px;
+  line-height: 1.4;
+}
+.top_content_align{
+  margin-top: 20px;
+  padding: 20px 10px;
+  margin-left: 0;
+}
+.top_content_1 {
+  font-size: 45px; 
+  text-align: center;
+  padding-bottom: 40px;
+}
+.new-job{
+  font-size: 60px;
+}
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .top_content{
+    height: 650px;
+    padding-top: 5px;
+  }
+}
+
+
+
+
+
+

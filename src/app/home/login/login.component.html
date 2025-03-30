@@ -1,0 +1,715 @@
+<header>
+  <app-header></app-header>
+</header>
+
+<!-- login form with database -->
+<div class="content">
+  <div>
+    <div class="login_header">Welcome to your professional community</div>
+
+    <div class="container">
+      <form [formGroup]="loginForm">
+        <!-- <select formControlName="loginType">
+          <option value="user">User</option>
+          <option value="company">Company</option>
+        </select> -->
+        <!-- <div> -->
+
+        <div class="form-group">
+          <div class="d-flex flex-row">
+            <!-- User Radio Button -->
+            <div class="form-check mx-2">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="loginType"
+                id="user"
+                formControlName="loginType"
+                value="user"
+              />
+              <label class="form-check-label" for="user"> User </label>
+            </div>
+            <!-- Company Radio Button -->
+            <div class="form-check ml-3 ml-md-0 mx-2">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="loginType"
+                id="company"
+                formControlName="loginType"
+                value="company"
+                checked
+              />
+              <label class="form-check-label" for="company"> Company </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- </div> -->
+        <div class="mb-3">
+          <label for="loginemail" class="form-label mt-3">Email</label>
+          <input
+            type="email"
+            class="form-control border border-dark p-3 login-input"
+            id="loginEmail"
+            formControlName="loginEmail_id"
+            placeholder="Enter Email ID"
+            required
+          />
+          <div
+            *ngIf="
+              loginForm.controls.loginEmail_id.invalid &&
+              (loginForm.controls.loginEmail_id.dirty ||
+                loginForm.controls.loginEmail_id.touched)
+            "
+          >
+            <small class="text-danger">Please enter a valid email.</small>
+          </div>
+        </div>
+        <div class="mb-1 position-relative">
+          <label for="loginpassword" class="form-label mt-3">Password</label>
+          <div class="position-relative">
+            <input
+              [type]="showLoginPassword ? 'text' : 'password'"
+              id="loginPassword"
+              class="form-control border border-dark p-3 login-input"
+              aria-describedby="passwordHelpBlock"
+              formControlName="login_Password"
+              placeholder="Enter Password "
+            />
+            <i
+              class="fa"
+              [ngClass]="showLoginPassword ? 'fa-eye-slash' : 'fa-eye'"
+              (click)="showLoginFormPassword()"
+              style="
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
+                cursor: pointer;
+              "
+            >
+            </i>
+          </div>
+          <div
+            *ngIf="
+              loginForm.controls.login_Password.invalid &&
+              (loginForm.controls.login_Password.dirty ||
+                loginForm.controls.login_Password.touched)
+            "
+          >
+            <small class="text-danger"
+              >Password must be at least 6 characters long.</small
+            >
+          </div>
+        </div>
+      </form>
+
+      <button
+        type="button"
+        class="signin_button btn btn-primary mt-4"
+        [disabled]="loginForm.invalid"
+        (click)="logIn()"
+      >
+        Login
+      </button>
+      <p class="text-center">
+        <button
+          type="button"
+          class="btn btn-link p-0 te text-primary text-decoration-underline"
+          data-bs-toggle="modal"
+          data-bs-target="#forgotPasswordModal"
+        >
+          Forgot password?
+        </button>
+      </p>
+
+      <!-- Forgot Password Modal -->
+     
+      <div
+        class="modal fade"
+        id="forgotPasswordModal"
+        tabindex="-1"
+        aria-labelledby="forgotPasswordModalLabel"
+        aria-hidden="true"
+        (shown.bs.modal)="resetForgotPasswordForm()"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="forgotPasswordModalLabel">
+                Reset Password
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Nav Tabs -->
+              <ul class="nav nav-tabs" id="forgotPasswordTabs">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    data-bs-toggle="tab"
+                    href="#userTab"
+                    >User</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-bs-toggle="tab" href="#companyTab"
+                    >Company</a
+                  >
+                </li>
+              </ul>
+
+              <!-- Tab Content -->
+              <div class="tab-content mt-3">
+                <!-- User Forgot Password Form -->
+                <div id="userTab" class="tab-pane fade show active">
+                  <div *ngIf="!UserOtpSent && !UserOtpVerified">
+                    <label for="email">Enter User Email:</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      [(ngModel)]="email_id"
+                      placeholder="Enter your email"
+                    />
+                    <button
+                      class="btn btn-primary mt-2 w-100"
+                      (click)="sendUserOtp()"
+                    >
+                      Send OTP
+                    </button>
+                  </div>
+
+                  <div *ngIf="UserOtpSent && !UserOtpVerified">
+                    <label for="otp">Enter OTP:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="userOtp"
+                      placeholder="Enter OTP"
+                    />
+                    <button
+                      class="btn btn-success mt-2 w-100"
+                      (click)="verifyUserOtp()"
+                    >
+                      Verify OTP
+                    </button>
+                    <p class="text-danger mt-2">
+                      OTP expires in: <span>{{ userCountdown }}</span> seconds
+                    </p>
+                  </div>
+
+                  <div *ngIf="UserOtpVerified">
+                    <label for="newPassword">Enter New Password:</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      [(ngModel)]="userNewPassword"
+                      placeholder="Enter new password"
+                    />
+                    <button
+                      class="btn btn-danger mt-2 w-100"
+                      (click)="resetUserPassword()"
+                    >
+                      Reset Password
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Company Forgot Password Form -->
+                <div id="companyTab" class="tab-pane fade"> 
+                  <div *ngIf="!CompanyOtpSent && !CompanyOtpVerified">
+                    <label for="companyEmail">Enter Company Email:</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      [(ngModel)]="company_email_id"
+                      placeholder="Enter company email"
+                    />
+                    <button
+                      class="btn btn-primary mt-2 w-100"
+                      (click)="sendCompanyOtp()"
+                    >
+                      Send OTP
+                    </button>
+                  </div>
+
+                  <div *ngIf="CompanyOtpSent && !CompanyOtpVerified">
+                    <label for="companyOtp">Enter OTP:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="companyOtp"
+                      placeholder="Enter OTP"
+                    />
+                    <button
+                      class="btn btn-success mt-2 w-100"
+                      (click)="verifyCompanyOtp()"
+                    >
+                      Verify OTP
+                    </button>
+                    <p class="text-danger mt-2">
+                      OTP expires in: <span>{{ companyCountdown }}</span> seconds
+                    </p>
+                  </div>
+
+                  <div *ngIf="CompanyOtpVerified">
+                    <label for="newCompanyPassword">Enter New Password:</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      [(ngModel)]="companyNewPassword"
+                      placeholder="Enter new password"
+                    />
+                    <button
+                      class="btn btn-danger mt-2 w-100"
+                      (click)="resetCompanyPassword()"
+                    >
+                      Reset Password
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-center">
+        Dont't have an account?
+        <button
+          type="button"
+          class="btn btn-link p-0 text-primary text-decoration-underline"
+          data-bs-toggle="modal"
+          data-bs-target="#registerModal"
+        >
+          Register
+        </button>
+      </p>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="registerModal"
+        tabindex="-1"
+        aria-labelledby="registerModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="registerModalLabel">
+                Register Form
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Toogle buttons -->
+              <div class="d-flex justify-content-center">
+                <button
+                  type="button"
+                  class="btn me-2 job-toggle-button"
+                  [class.active]="selectedForm === 'seeker'"
+                  (click)="selectedForm = 'seeker'"
+                >
+                  <i class="fa-regular fa-user mx-2"></i>
+                  Job Seeker
+                </button>
+
+                <button
+                  type="button"
+                  class="btn me-2 job-toggle-button"
+                  [class.active]="selectedForm === 'provider'"
+                  (click)="selectedForm = 'provider'"
+                >
+                  <i class="fa-regular fa-user mx-2"></i>
+                  Job Provider
+                </button>
+              </div>
+              <!-- jobseeker modal -->
+
+              <!-- job seeker form -->
+              <div *ngIf="selectedForm === 'seeker'">
+                <form [formGroup]="jobSeekerForm">
+                  <div class="mb-3">
+                    <label for="jobseekerfullname" class="form-label mt-3"
+                      >Full name</label
+                    >
+                    <input
+                      type="name"
+                      class="form-control p-3 border border-secondary"
+                      id="jobseekerFullname"
+                      formControlName="jobseekerName"
+                      placeholder="What is your name?"
+                    />
+                    <div class="mb-3">
+                      <label for="jobseekeremail" class="form-label mt-2"
+                        >Email ID</label
+                      >
+                      <input
+                        type="email"
+                        class="form-control p-3 border border-secondary"
+                        id="jobseekerEmail"
+                        formControlName="jobseekerEmail_id"
+                        placeholder="Tell us your Email ID"
+                      />
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="jobseekerpassword" class="form-label mt-2"
+                        >Password</label
+                      >
+                      <div class="position-relative">
+                        <input
+                          [type]="showSeekerPassword ? 'text' : 'password'"
+                          id="jobseekerPassword"
+                          class="form-control p-3 border border-secondary"
+                          aria-describedby="passwordHelpBlock"
+                          formControlName="jobseekerPassword"
+                          placeholder="Enter Password"
+                        />
+                        <i
+                          class="fa"
+                          [ngClass]="
+                            showSeekerPassword ? 'fa-eye-slash' : 'fa-eye'
+                          "
+                          (click)="showSeekerFormPassword()"
+                          style="
+                            position: absolute;
+                            top: 50%;
+                            right: 15px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                          "
+                        >
+                        </i>
+                      </div>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                      <label
+                        for="jobseekerconfirmpassword"
+                        class="form-label mt-2"
+                        >Confirm Password</label
+                      >
+                      <div class="position-relative">
+                        <input
+                          [type]="
+                            showSeekerConfirmPassword ? 'text' : 'password'
+                          "
+                          id="jobseekerConfirmPassword"
+                          class="form-control p-3 border border-secondary"
+                          aria-describedby="passwordHelpBlock"
+                          formControlName="jobseekerConfirm_password"
+                          placeholder="Enter Confirm Password"
+                        />
+                        <i
+                          class="fa"
+                          [ngClass]="
+                            showSeekerConfirmPassword
+                              ? 'fa-eye-slash'
+                              : 'fa-eye'
+                          "
+                          (click)="showseekerFormConfirmPassword()"
+                          style="
+                            position: absolute;
+                            top: 50%;
+                            right: 15px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                          "
+                        >
+                        </i>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="jobseekerphonenumber" class="form-label mt-2"
+                        >Phone number</label
+                      >
+                      <input
+                        type="tel"
+                        class="form-control p-3 border border-secondary"
+                        id="jobseekerPhoneNumber"
+                        formControlName="jobseekerPhone_no"
+                        placeholder="Enter your phone number"
+                        minlength="10"
+                        maxlength="10"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="jobseekerlocation" class="form-label mt-2"
+                        >Location</label
+                      >
+                      <input
+                        type="text"
+                        id="jobseekerLocation"
+                        class="form-control p-3 border border-secondary"
+                        formControlName="jobseekerLocation"
+                        placeholder="Mention the location you live in"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="jobseekerProfile" class="form-label"
+                        >Profile</label
+                      >
+                      <input
+                        class="form-control"
+                        type="file"
+                        id="jobseekerProfile"
+                        #profileInput
+                        (change)="fileSelect($event, 'profile')"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="jobseekerresume" class="form-label"
+                        >Upload Resume</label
+                      >
+                      <input
+                        class="form-control"
+                        type="file"
+                        id="jobseekerResume"
+                        #resumeInput
+                        (change)="fileSelect($event, 'resume')"
+                      />
+                      <small class="text-muted">
+                        Upload a file (e.g., <b>JohnDoeS.pdf</b>).
+                        <span class="text-muted"
+                          >Do not use special characters (_ , - , @ ,
+                          etc.).</span
+                        >
+                      </small>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        (click)="jobSeekerRegister()"
+                      >
+                        Register
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div *ngIf="selectedForm === 'provider'">
+                <form [formGroup]="jobProviderForm">
+                  <div class="mb-3">
+                    <label for="jobprovidername" class="form-label mt-3"
+                      >Company name</label
+                    >
+                    <input
+                      type="name"
+                      class="form-control p-3 border border-secondary"
+                      id="jobproviderName"
+                      formControlName="jobproviderName"
+                      placeholder="Enter a Company name"
+                    />
+                    <div class="mb-3">
+                      <label for="jobprovideremail" class="form-label mt-2"
+                        >Email ID</label
+                      >
+                      <input
+                        type="email"
+                        class="form-control p-3 border border-secondary"
+                        id="jobproviderEmail"
+                        formControlName="jobproviderEmail_id"
+                        placeholder="Tell us your Email ID"
+                      />
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="jobproviderpassword" class="form-label mt-2"
+                        >Password</label
+                      >
+                      <div class="position-relative">
+                        <input
+                          [type]="showProviderPassword ? 'text' : 'password'"
+                          id="jobproviderPassword"
+                          class="form-control p-3 border border-secondary"
+                          aria-describedby="passwordHelpBlock"
+                          formControlName="jobproviderPassword"
+                          placeholder="Enter Password"
+                        />
+                        <i
+                          class="fa"
+                          [ngClass]="
+                            showProviderPassword ? 'fa-eye-slash' : 'fa-eye'
+                          "
+                          (click)="showProviderFormPassword()"
+                          style="
+                            position: absolute;
+                            top: 50%;
+                            right: 15px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                          "
+                        >
+                        </i>
+                      </div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label
+                        for="jobproviderconfirmpassword"
+                        class="form-label mt-2"
+                        >Confirm Password</label
+                      >
+                      <div class="position-relative">
+                        <input
+                          [type]="
+                            showProviderConfirmPassword ? 'text' : 'password'
+                          "
+                          id="jobproviderConfirmPassword"
+                          class="form-control p-3 border border-secondary"
+                          aria-describedby="passwordHelpBlock"
+                          formControlName="jobproviderConfirm_password"
+                          placeholder="Enter Confirm Password"
+                        />
+                        <i
+                          class="fa"
+                          [ngClass]="
+                            showProviderConfirmPassword
+                              ? 'fa-eye-slash'
+                              : 'fa-eye'
+                          "
+                          (click)="showProviderFormConfirmPassword()"
+                          style="
+                            position: absolute;
+                            top: 50%;
+                            right: 15px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                          "
+                        >
+                        </i>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="jobprovidernumber" class="form-label mt-2"
+                        >Phone number</label
+                      >
+                      <input
+                        type="tel"
+                        class="form-control p-3 border border-secondary"
+                        id="jobproviderPhoneNumber"
+                        formControlName="jobproviderPhone_no"
+                        placeholder="Enter your phone number"
+                        minlength="10"
+                        maxlength="10"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="jobproviderlocation" class="form-label mt-2"
+                        >Location</label
+                      >
+                      <input
+                        type="text"
+                        id="jobproviderLocation"
+                        class="form-control p-3 border border-secondary"
+                        formControlName="jobproviderLocation"
+                        placeholder="Mention the location you live in"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label
+                        for="jobproviderdescription"
+                        class="form-label mt-2"
+                        >Company Description</label
+                      >
+                      <textarea
+                        id="companyDescription"
+                        class="form-control p-3 border border-secondary"
+                        rows="5"
+                        cols="50"
+                        placeholder="Enter your company description here..."
+                        formControlName="jobproviderDescription"
+                      ></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="jobproviderwebsite" class="form-label mt-2"
+                        >Website</label
+                      >
+                      <input
+                        type="url"
+                        id="companyWebsite"
+                        class="form-control p-3 border border-secondary"
+                        placeholder="Enter company website URL"
+                        formControlName="jobproviderWebsite"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="jobprovidercompanylogo" class="form-label"
+                        >Company Logo</label
+                      >
+                      <input
+                        class="form-control"
+                        type="file"
+                        id="jobproviderLogo"
+                        #logoInput
+                        (change)="fileSelect($event, 'jobprovider')"
+                      />
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="jobProviderRegister()"
+                      >
+                        Register
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="login_img">
+    <img
+      src="/assets/login_bg.jpg"
+      alt="Login_Image"
+      width="550"
+      height="550"
+    />
+  </div>
+</div>
+
+<footer>
+  <app-footer></app-footer>
+</footer>

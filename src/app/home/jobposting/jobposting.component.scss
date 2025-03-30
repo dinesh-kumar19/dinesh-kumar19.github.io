@@ -1,0 +1,31 @@
+    .job-card {
+      background-color: white;
+      border: none;
+    } 
+    .select_category {
+      font-size: 35px;
+      color: black
+    } 
+    .select_category:hover {
+      color: green;
+    }
+    .job-top-icon{
+      display: flex;
+    }
+    .job-top-content{
+      display: flex;
+      flex-direction: column;
+    }
+    .job-apply:hover {
+      font-weight: bolder;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(1, 1, 1, 0.19);
+    }
+    .job-overview-card {
+      background-color: whitesmoke;
+    }  
+    @media (max-width: 425px) {
+      .job-top-icon{
+        display: flex;
+        flex-direction: column;
+      }
+    }

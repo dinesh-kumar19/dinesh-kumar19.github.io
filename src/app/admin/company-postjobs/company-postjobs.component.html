@@ -1,0 +1,53 @@
+<section>
+    <div *ngIf="companyJobApplications.length === 0" class="text-center mt-4">
+      <p>No job applications found.</p>
+    </div>
+    <div class="container mt-5 table-responsive">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <p class="fs-2 fw-bold text-center mt-4 mb-4">Company Post Jobs</p>
+      <table class="table table-bordered table-hover" *ngIf="companyJobApplications.length > 0">
+        <thead>
+          <tr>
+            <th>S.NO</th>
+            <th>Job Title</th>
+            <th>Company Name</th>
+            <th>Company Website</th>
+            <th>Email ID</th>
+            <th>Application Date</th>
+            <th>Application Deadline</th>
+            <th>Status</th>
+             <th>Action</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let applications of companyJobApplications; let i = index">
+          <tr>
+            <td>{{ (currentPage - 1) * limit + i + 1 }}</td>
+            <td>{{ applications.jobtitle }}</td>
+            <td>{{ applications.companyname }}</td>
+            <td>{{applications.company_website}}</td>
+            <td>{{applications.email_id}}</td>
+            <td>{{ applications.dateposted }}</td>
+            <td>{{applications.expiredate}}</td>
+
+            <td>
+              <select (change)="updateStatus(applications.jobposting_id, $event)">
+                <option value="pending" [selected]="applications.jobposting_status === 'pending'" disabled>Pending</option>
+                <option value="approved" [selected]="applications.jobposting_status === 'approved'">Approved</option>
+                <option value="rejected" [selected]="applications.jobposting_status === 'rejected'">Rejected</option>
+              </select>
+            </td>
+            <td>
+              <i (click)="deleteJobByAdmin(applications.jobposting_id)" class="fas fa-trash-alt text-danger" style="cursor: pointer;"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination d-flex justify-content-end">
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+    </div>
+  </section>

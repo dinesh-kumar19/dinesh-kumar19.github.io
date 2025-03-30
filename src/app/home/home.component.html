@@ -1,0 +1,199 @@
+<header>
+  <app-header></app-header>
+</header>
+
+<main class="mt-0">
+  <!-- Header searchbar content -->
+  <section>
+    <div class="container-fluid top_content">
+      <div class="top_content">
+        <div class="top_content_align pb-4">
+          <div
+            class="top_content_1"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+          >
+            Make The Best Move to Choose Your <br />
+            <span class="fw-bolder new-job">New Job</span>
+          </div>
+          <div
+            data-aos="fade-right"
+            data-aos-duration="1000"
+            style="font-size: 20px"
+            class="top-secondline"
+          >
+            Find Jobs, Employment & Career Opportunities. Some or the companies
+            we've helped recruit excellent applicants over the years.
+          </div>
+          <div>
+            <button
+              type="button"
+              class="btn btn-success btn-lg px-5 mt-5 fw-bolder search-btn"
+              (click)="findJob()"
+            >
+              Find a Jobs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-fluid filter-align">
+      <form [formGroup]="jobSearchForm">
+        <div
+          class="row align-items-center border p-4 text-white"
+          style="background-color: #cbd7da"
+        >
+          <!-- Job Title Input with Suggestions -->
+          <div class="col-md-3 col-sm-6 mb-3 position-relative">
+            <input
+              class="form-control form-control-lg mb-3"
+              type="text"
+              formControlName="jobtitle"
+              placeholder="Job title"
+              aria-label="default input example"
+              (focus)="onJobTitleFocus()"
+              (blur)="onJobTitleBlur()"
+            />
+            <ul
+              *ngIf="showSuggestions && suggestions.length"
+              class="list-group mt-1 suggestion-list"
+            >
+              <li
+                *ngFor="let suggestion of suggestions"
+                class="list-group-item list-group-item-action suggestion-list-item"
+                (click)="selectSuggestion(suggestion)"
+              >
+                {{ suggestion }}
+              </li>
+            </ul>
+          </div>
+          <!--  experience dropdown-->
+          <div class="col-md-3 col-sm-6 mb-3">
+            <div class="experience-dropdown">
+              <select
+                class="form-select form-select-lg mb-3 experience-list"
+                formControlName="experience"
+                aria-label=".form-select-lg example"
+              >
+                <option value="" disabled selected>Select experience</option>
+                <option value="Fresher">Fresher (less than 1 year)</option>
+                <option *ngFor="let option of experienceOptions" [value]="option">
+                  {{ option }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Job Location Input -->
+          <div class="col-md-3 col-sm-6 mb-3">
+            <input
+              class="form-control form-control-lg mb-3"
+              type="text"
+              formControlName="job_location"
+              placeholder="Location"
+            />
+          </div>
+
+          <!-- Search Button -->
+          <div class="col-md-3 col-sm-6 mb-3">
+            <button
+              type="button"
+              class="btn btn-success btn-lg px-5 w-100"
+              (click)="searchJobs()"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <!-- Body Job Categories -->
+  <section>
+    <div class="container mt-5 mb-5">
+      <div class="text-center">
+        <p class="fs-1 fw-bold mb-4" style="color: #153352">
+          Popular Job Categories
+        </p>
+        <p></p>
+        <p style="font-size: 18px">
+          Search all the open positions on the web. Get your own personalized
+          salary estimate.
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="category-scroll">
+        <div
+          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+        >
+          <div
+            class="col"
+            style="overflow: hidden"
+            *ngFor="let category of categories"
+          >
+            <div class="card h-100 border-outline-secondary mb-3">
+              <div class="card-body text-center">
+                <img
+                  [src]="
+                    'http://localhost:3000/uploads/categoryImage/' +
+                    category.imageUrl
+                  "
+                  alt="CategoryImage"
+                  width="80"
+                  height="80"
+                  class="job-icon mb-3"
+                />
+                <p
+                  class="card-title mx-3 category-style"
+                  (click)="viewSubcategories(category.jobcategory_id)"
+                >
+                  {{ category.categoryname }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination Buttons -->
+    <div class="text-center mt-4">
+      <button
+        class="btn btn-primary mx-2"
+        (click)="previousPage()"
+        [disabled]="offset === 0"
+      >
+        Previous
+      </button>
+      <span
+        >Page {{ currentPage }} of
+        {{ getTotalPages() }}</span
+      >
+      <button
+        class="btn btn-primary mx-2"
+        (click)="nextPage()"
+        [disabled]="offset + limit >= totalCategories"
+      >
+        Next
+      </button>
+    </div>
+
+    <!-- Browse more job button -->
+    <div class="d-flex justify-content-center p-4">
+      <button
+        class="btn btn-outline-success browse-btn"
+        (click)="navigateToJobList()"
+      >
+        Browse More Jobs
+      </button>
+    </div>
+  </section>
+</main>
+<footer>
+  <app-footer></app-footer>
+</footer>

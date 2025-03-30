@@ -1,0 +1,23 @@
+// navbar style
+.nav-link{
+    font-size: 18px;
+    font-weight: bolder;
+    margin: 0 20px 0 20px;
+    padding: 10px 15px 10px 15px;
+  }
+  .nav-link:hover{
+    border-radius: 50px;
+    background-color: green;
+    color: whitesmoke;
+  }
+  .nav-item>a:active{
+    background-color: rgb(71, 71, 179);
+  }
+  .logout-style:hover{
+    background-color: rgb(214, 75, 75);
+    border-radius: 60px;
+    color: whitesmoke;
+    padding: 8px;
+    cursor: pointer;
+  }
+  

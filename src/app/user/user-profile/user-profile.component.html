@@ -1,0 +1,130 @@
+<header>
+  <app-header></app-header>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div *ngIf="loggedUser" class="profile-card p-4 rounded shadow-sm bg-light">
+          <div
+            class="text-center mb-3"
+          >
+            <img
+            [src]="profileImage"
+              alt="Profile"
+              class="profile-pic rounded-circle border shadow-sm"
+            />
+            <h5 class="mt-3 fw-bold">{{ loggedUser.name }}</h5>
+            <p class="text-muted">{{ loggedUser.email_id }}</p>
+
+            <!-- <div class="profile-infos">
+              <p class="mb-0 fw-bold">user name: {{ loggedUser.name }}</p>
+              <p>email id: {{ loggedUser.email_id }}</p>
+            </div> -->
+          </div>
+          <hr>
+          <div class="profile-info">
+            <p class="fs-3">Basic Information</p>
+            <p><strong>Name:</strong> {{ loggedUser.name }}</p>
+            <p><strong>Email:</strong> {{ loggedUser.email_id }}</p>
+            <p><strong>Phone No:</strong> {{ loggedUser.phone_no }}</p>
+            <p><strong>Location:</strong> {{ loggedUser.location }}</p>
+            <p>
+              <strong>Resume:</strong>
+              <a *ngIf="loggedUser.resume_path" [href]="loggedUser.     resume_path" target="_blank" rel="noopener noreferrer" download class="text-decoration-none text-danger">
+              <i class="bx bxs-file-pdf"></i> Download Resume
+              </a>
+              <span *ngIf="!loggedUser.resume_path" class="text-muted">No Resume</span>
+          </p>
+          </div>
+        </div>
+        <!-- Button trigger modal -->
+        <div class="text-center mt-3">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+            Update Profile
+          </button>
+        </div>
+
+       <!-- Modal -->
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateModalLabel">Update Profile</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- update form -->
+        <div class="modal-body">
+          <form [formGroup]= "profileForm">
+            <div class="mb-3">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" formControlName="name" class="form-control">
+                <small class="text-danger" *ngIf="profileForm.controls.name.invalid && profileForm.controls.name.touched">
+                  Name is required (Min 3 chars)
+                </small>
+              </div>
+
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="text" id="phone" formControlName="phone_no" class="form-control" minlength="10"
+              maxlength="10"/>
+              <small class="text-danger" *ngIf="profileForm.controls.phone_no.invalid && profileForm.controls.phone_no.touched">
+                Enter a valid 10-digit phone number
+              </small>
+            </div>
+            
+            <div class="mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" id="location" formControlName="location" class="form-control" />
+              <small class="text-danger" *ngIf="profileForm.controls.location.invalid && profileForm.controls.location.touched">
+                Location is required
+              </small>
+            </div>
+
+            <div class="mb-3">
+              <label for="profilePic" class="form-label">Profile Picture</label>
+              <div>
+              <img *ngIf="profileImage && profileImage !== 'assets/profile/profile_pic.png'" 
+              [src]="profileImage" alt="Profile Image" width="100" height="100"  class="rounded-circle border p-1">
+              <input type="file" id="profileInput" (change)="onFileSelected($event, 'profile')" class="form-control mt-2" />
+              <small class="text-muted">Upload an image (JPG, PNG)</small>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="resume" class="form-label">Upload Resume</label><br>
+              <div *ngIf="!newResumeSelected">
+                <span class="mx-2">{{ resumeFileName }}</span>
+                <a *ngIf="resumeUrl" [href]="resumeUrl" target="_blank" class="">View</a>
+              </div>
+            
+              <div *ngIf="newResumeSelected">
+                <span class="mx-2">{{ resumeFileName }}</span>
+                <a *ngIf="newResumeUrl" [href]="newResumeUrl" target="_blank">View</a>
+              </div>
+              <input type="file" id="resumeInput" (change)="onFileSelected($event, 'resume')" class="form-control mt-3" />
+              <small class="text-muted">
+                Upload a file (e.g., <b>JohnDoeS.pdf</b>).
+                <span class="text-muted">Do not use special characters (_ , - , @ , etc.).</span>
+              </small>
+              
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" (click)="updateProfile()" [disabled]="profileForm.invalid">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <app-footer></app-footer>
+</footer>

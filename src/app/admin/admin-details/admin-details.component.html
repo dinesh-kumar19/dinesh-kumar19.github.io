@@ -1,0 +1,72 @@
+ <header>
+    <app-admin-header></app-admin-header>
+</header>
+<main>
+ <div class="sidebar">
+    <nav class="nav flex-column">
+      <ul>
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['admin-dashboard']">
+            <span class="icon">
+              <i class='bx bxs-dashboard'></i>
+            </span>
+            
+            <span class="description">Dashboard</span>
+            </a>
+        </li>
+        <li>              
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['job-applications']">
+            <span class="icon">
+              <i class='bx bx-send'></i>
+            </span>
+            
+            <span class="description">Applied Jobs</span>
+            </a>
+        </li>
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['company-postjobs']">
+            <span class="icon">
+              <i class='bx bx-spreadsheet '></i>
+            </span>
+            
+            <span class="description">Posted Jobs</span>
+            </a>
+        </li>
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['registered-users']">
+            <span class="icon">
+              <i class='bx bx-user' ></i>
+            </span>
+            
+            <span class="description">Users</span>
+            </a>
+        </li>
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['registered-companies']">
+            <span class="icon">
+              <i class='bx bx-buildings'></i>
+            </span>
+            
+            <span class="description">Companies</span>
+            </a>
+        </li>
+        
+        <li>
+          <a class="nav-link" [routerLinkActive]="['active']" (click)="logout()">
+            <span class="icon">
+              <i class='bx bx-log-in-circle'></i>
+            </span>
+            
+            <span class="description">Logout</span>
+            </a>
+        </li>
+      </ul>
+
+    </nav>
+  </div>
+
+  <section class="main-content">
+  <router-outlet></router-outlet>
+  </section> 
+
+</main>

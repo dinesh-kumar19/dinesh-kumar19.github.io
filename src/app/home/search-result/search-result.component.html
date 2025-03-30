@@ -1,0 +1,68 @@
+<header>
+  <app-header></app-header>
+</header>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4" style="margin-top: 120px;">Job Search Results</h2>
+
+  <!-- Cards Section -->
+  <div *ngIf="jobResults.length > 0; else noResults">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+      <div *ngFor="let result of jobResults" class="col">
+        <div class="card shadow-sm h-100" style="width: 18rem;">
+          <div class="text-center p-3">
+            <img 
+              [src]="'http://localhost:3000/uploads/jobLogo/' + result.imageUrl" 
+              alt="Job Logo" 
+              class="img-fluid rounded" 
+              style="max-width: 150px; height: 150px;" 
+            />
+          </div>
+          <div class="card-body">
+            <h5 
+              class="card-title text-primary fw-bold fs-5" 
+              style="cursor: pointer;" 
+              (click)="viewJobposting(result.jobsubcategory_id)"
+            >
+              {{ result.jobtitle }}
+            </h5>
+            <p class="card-text"><i class="fa-solid fa-briefcase me-2"></i>{{ result.companyname }}</p>
+            <p class="card-text"><i class="fa-solid fa-dollar-sign me-2"></i>{{ result.salary }}</p>
+            <p class="card-text"><i class="fa-solid fa-location-dot me-2"></i>{{ result.job_location }}</p>
+            <p class="card-text"><i class="fa-regular fa-calendar-days me-2"></i>{{ result.dateposted }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center align-items-center mt-4">
+      <button 
+        class="btn btn-outline-primary me-2" 
+        (click)="previousPage()" 
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+      <span class="mx-2">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button 
+        class="btn btn-outline-primary ms-2" 
+        (click)="nextPage()" 
+        [disabled]="currentPage >= totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  <!-- No Results Template -->
+  <ng-template #noResults>
+    <div class="text-center mt-4">
+      <p>No search results found.</p>
+    </div>
+  </ng-template>
+</div>
+
+<footer>
+  <app-footer></app-footer>
+</footer>
