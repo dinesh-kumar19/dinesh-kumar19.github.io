@@ -22,7 +22,7 @@
           "options": {
             "outputPath": "dist/JobPortal",
             "index": "src/index.html",
-            "baseHref": "/career-link-job-portal/",
+            "baseHref": "/",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
