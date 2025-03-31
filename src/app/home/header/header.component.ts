@@ -27,6 +27,13 @@ export class HeaderComponent implements OnInit {
     this.isCompanyLoggedIn = this.jobsService.isCompanyLoggedIn();
     this.getCurrentUser();
   }
+  profileView(){
+    if(this.isLoggedIn){
+      this.router.navigate(['/user/user-profile']);
+    } else {
+      this.router.navigate(['/home/login']);
+    }
+  }
   logout(): void{
     if (this.isLoggedIn){
       this.jobsService.logoutUser().subscribe(

@@ -73,11 +73,12 @@
 <div class="sidebar" [class.open]="showSidebar" *ngIf="!isLargeScreen">
   <button class="close-btn" (click)="toggleSidebar()">&times;</button>
   <div class="sidebar-header">
-    <div class="profile-container">
+    <div class="profile-container" *ngIf="isLoggedIn">
       <img
       [src]="profileImage"
         alt="Profile"
         class="user-pic"
+        *ngIf="isLoggedIn"
         (click)="toggleProfile($event)"
       />
       <div class="profile-dropdown" *ngIf="!showProfileMenu">
@@ -88,13 +89,14 @@
             </div>
         </div>
         <hr />
-        <a routerLink="/user/user-profile" class="profile-text text-decoration-none"><i class='bx bx-user-check mx-3'></i>My Profile</a>
+        <a routerLink="/user/user-profile" class="profile-text text-decoration-none" (click)="profileView()"><i class='bx bx-user-check mx-3'></i>My Profile</a>
       </div>
     </div>
   </div>
   <div class="sidebar-links">
     <a routerLink="/"><i class='bx bx-home mx-3'></i>Home</a>
-    <a routerLink="/user/user-dashboard"><i class='bx bxs-dashboard mx-3'></i>Dashboard</a>
-    <a (click)="logout()" style="cursor: pointer;"><i class='bx bx-log-in mx-3'></i>Logout</a>
+    <a routerLink="/user/user-dashboard" *ngIf="isLoggedIn"><i class='bx bxs-dashboard mx-3'></i>Dashboard</a>
+    <a routerLink="/home/login" *ngIf="!isLoggedIn && !isCompanyLoggedIn"><i class='bx bx-log-in-circle mx-3'></i>Login/Register</a>
+    <a (click)="logout()" style="cursor: pointer;" *ngIf="isLoggedIn"><i class='bx bx-log-in mx-3'></i>Logout</a>
   </div>
 </div>

@@ -12,8 +12,7 @@
   position: relative;
   z-index: 1;
   background-color: rgba(197, 224, 221, 0.945);
-  padding-top: 20px;
-  min-height: 580px; 
+  height: 580px; 
   overflow: hidden;
 }
 .top_content_align{
@@ -29,6 +28,9 @@
 .new-job{
   color: rgb(15, 84, 30); 
   font-size: 80px
+}
+.top-secondline{
+  margin-top: 20px;
 }
 .category-style {
   font-size: 22px;
@@ -74,7 +76,6 @@
   cursor: pointer;
   white-space: normal;
 }
-
 .suggestion-list-item:hover {
   background-color: #f1f1f1;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -96,44 +97,71 @@
   background-color: #f1f1f1;
   border-radius: 4px;
 }
-@media only screen and (max-width: 768px) {
+@media (min-width: 1024px) and (max-width: 1210px) {
   .bg-image {
-    height: 100%;           
+    height: 100%;
     object-fit: cover;
   }
-.top_content{
-    background-color: #e2e3e3;
-    // height: auto;
-    margin-top: 30px;
-}
-.top-secondline{
-  font-size: 12px;
-  line-height: 1.4;
-}
-.top_content_align{
-  margin-top: 20px;
-  padding: 20px 10px;
-  margin-left: 0;
-}
-.top_content_1 {
-  margin-top: 90px;
-  font-size: 45px; 
-  text-align: center;
-  // padding-bottom: 40px;
-}
-.new-job{
-  font-size: 60px;
-}
-}
-@media (min-width: 769px) and (max-width: 1024px) {
-  .top_content{
-    height: 580px;
-    padding-top: 5px;
+  .top_content {
+    min-height: 720px;
+    overflow: visible; 
+  }
+  .top_content_1 {
+    font-size: 70px;
+  }
+  .new-job {
+    font-size: 80px;
+  }
+  .top-secondline {
+    line-height: 1.4;
   }
 }
-
-
-
-
-
+@media (min-width: 768px) and (max-width: 1023px) {
+  .bg-image {
+    height: 100%;
+    object-fit: cover;
+  }
+  .top_content {
+    height: 600px; 
+  }
+  .top_content_align {
+    padding: 140px 30px;      
+  }
+  .top_content_1 {
+    font-size: 55px;
+  }
+  .new-job {
+    font-size: 65px;
+  }
+  .top-secondline {
+    line-height: 1.3;
+  }
+}
+@media (max-width: 767px) {
+  .bg-image {
+    height: 100%;
+    object-fit: cover;
+  }
+  .top_content {
+    height: 600px; 
+  }
+  .top_content_align {
+    padding: 100px 20px;
+  }
+  .top_content_1 {
+    font-size: 45px;
+  }
+  .new-job {
+    font-size: 55px;
+  }
+  .top-secondline {
+    line-height: 1.3;
+  }
+}
+@media (max-width: 425px) {
+  .top_content {
+    height: 650px; 
+  }
+  
+}
 
