@@ -4,11 +4,10 @@
 
 <main class="container">
   <h4 class="py-2 mx-3 text-center">Job SubCategories</h4>
-  
+
   <section>
     <div class="container mt-4">
       <div class="row">
-        
         <!-- Filter Sidebar -->
         <div class="col-md-4">
           <div class="filter-sidebar border p-3 sticky-sidebar">
@@ -49,7 +48,11 @@
                     type="checkbox"
                     class="mt-2 ms-2"
                     [value]="jobtype.value"
-                    [checked]="jobFilterForm.get('employeetype')?.value.includes(jobtype.value)"
+                    [checked]="
+                      jobFilterForm
+                        .get('employeetype')
+                        ?.value.includes(jobtype.value)
+                    "
                     (change)="onCheckBoxChangeJobType($event)"
                   />
                   {{ jobtype.name }}
@@ -63,7 +66,9 @@
                     type="checkbox"
                     class="mt-2 ms-2"
                     [value]="exp.value"
-                    [checked]="jobFilterForm.get('experience')?.value.includes(exp.value)"
+                    [checked]="
+                      jobFilterForm.get('experience')?.value.includes(exp.value)
+                    "
                     (change)="onCheckBoxChangeExperience($event)"
                   />
                   {{ exp.name }}
@@ -96,32 +101,62 @@
 
         <!-- Job Results Section -->
         <div class="col-md-8 mt-5">
-
           <!-- Filtered Jobs -->
           <div *ngIf="showFilteredJobs && filteredJobs.length > 0" class="mt-2">
             <h2 class="text-center fs-3">Filtered Job Results</h2>
-            <div *ngFor="let job of filteredJobs" class="card mb-3 job-card mt-4 bg-light">
+            <div
+              *ngFor="let job of filteredJobs"
+              class="card mb-3 job-card mt-4 bg-light"
+            >
               <div class="card-body row align-items-center p-4">
                 <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
-                  <img [src]="'http://localhost:3000/uploads/jobLogo/' + job.imageUrl" alt="Job Logo" class="job-img-style" />
+                  <img
+                    [src]="
+                      'http://localhost:3000/uploads/jobLogo/' + job.imageUrl
+                    "
+                    alt="Job Logo"
+                    class="job-img-style"
+                  />
                 </div>
                 <div class="col-12 col-md-9 text-md-start">
-                  <p class="fs-5 text-primary fw-bold mb-2" style="cursor: pointer;" (click)="viewJobposting(job.jobsubcategory_id)">
+                  <p
+                    class="fs-5 text-primary fw-bold mb-2"
+                    style="cursor: pointer"
+                    (click)="viewJobposting(job.jobsubcategory_id)"
+                  >
                     {{ job.jobtitle }}
                   </p>
                   <div class="d-flex flex-wrap text-dark-emphasis">
-                    <p class="mb-2 me-md-3"><i class="fa-solid fa-briefcase me-1"></i>{{ job.companyname }}</p>
-                    <p class="mb-2 me-md-3"><i class="fa-solid fa-dollar-sign me-1"></i>{{ job.salary }}</p>
-                    <p class="mb-2 me-md-3"><i class="fa-solid fa-location-dot me-1"></i>{{ job.job_location }}</p>
-                    <p class="mb-2 me-md-3"><i class="fa-regular fa-calendar-days me-1"></i>{{ job.dateposted }}</p>
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-solid fa-briefcase me-1"></i
+                      >{{ job.companyname }}
+                    </p>
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-solid fa-dollar-sign me-1"></i
+                      >{{ job.salary }}
+                    </p>
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-solid fa-location-dot me-1"></i
+                      >{{ job.job_location }}
+                    </p>
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-regular fa-calendar-days me-1"></i
+                      >{{ job.dateposted }}
+                    </p>
                   </div>
                   <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
-                    <span class="bg-primary p-2 px-3 rounded-pill shadow-sm text-white">
-                      <i class="fa-solid fa-user-tie me-1"></i> {{ job.employeetype }}
+                    <span
+                      class="bg-primary p-2 px-3 rounded-pill shadow-sm text-white"
+                    >
+                      <i class="fa-solid fa-user-tie me-1"></i>
+                      {{ job.employeetype }}
                     </span>
-                    
-                    <span class="bg-success p-2 px-3 rounded-pill shadow-sm text-white">
-                      <i class="fa-solid fa-clock me-1"></i> {{ job.experience }}
+
+                    <span
+                      class="bg-success p-2 px-3 rounded-pill shadow-sm text-white"
+                    >
+                      <i class="fa-solid fa-clock me-1"></i>
+                      {{ job.experience }}
                     </span>
                   </div>
                 </div>
@@ -133,48 +168,87 @@
           <div *ngIf="showNoResultMessage" class="no-result-message">
             <p>No filter results found</p>
           </div>
-          
+
           <!-- Default Subcategories -->
-          <div *ngIf="!showFilteredJobs && subcategories.length > 0 && !showClearButton" class="mt-2">
+          <div
+            *ngIf="
+              !showFilteredJobs && subcategories.length > 0 && !showClearButton
+            "
+            class="mt-2"
+          >
             <h2 class="text-center fs-3">Available Job Subcategories</h2>
-            
-            <div *ngFor="let subcategory of subcategories" class="card mb-3 job-card mt-4 bg-light">
+
+            <div
+              *ngFor="let subcategory of subcategories"
+              class="card mb-3 job-card mt-4 bg-light"
+            >
               <div class="card-body row align-items-center p-4">
-                <div class="col-12 col-md-3 text-center mb-3 mb-md-0"> 
-                  <img [src]="'http://localhost:3000/uploads/jobLogo/' + subcategory.imageUrl" alt="Job Logo" class="job-img-style"/>
+                <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
+                  <img
+                    [src]="
+                      'http://localhost:3000/uploads/jobLogo/' +
+                      subcategory.imageUrl
+                    "
+                    alt="Job Logo"
+                    class="job-img-style"
+                  />
                 </div>
                 <div class="col-12 col-md-9 text-md-start">
-                  <p class="fs-4 text-dark fw-bold mb-3" style="cursor: pointer;" (click)="viewJobposting(subcategory.jobsubcategory_id)">
+                  <p
+                    class="fs-4 text-dark fw-bold mb-3"
+                    style="cursor: pointer"
+                    (click)="viewJobposting(subcategory.jobsubcategory_id)"
+                  >
                     {{ subcategory.jobtitle }}
                   </p>
                   <div class="d-flex flex-wrap text-dark-emphasis">
-                    <p class="mb-2 me-md-3"><i class="fa-solid fa-briefcase me-1"></i>{{ subcategory.companyname }}</p>
-                    <p class="mb-2 me-md-3"><i class="fa-solid fa-dollar-sign me-1"></i>{{ subcategory.salary }}</p>
-                    <p class="mb-2 me-md-3"><i class="fa-solid fa-location-dot me-1"></i>{{ subcategory.job_location }}</p>
-                    <p class="mb-2 me-md-3"><i class="fa-regular fa-calendar-days me-1"></i>{{ subcategory.date }}</p>
-      
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-solid fa-briefcase me-1"></i
+                      >{{ subcategory.companyname }}
+                    </p>
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-solid fa-dollar-sign me-1"></i
+                      >{{ subcategory.salary }}
+                    </p>
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-solid fa-location-dot me-1"></i
+                      >{{ subcategory.job_location }}
+                    </p>
+                    <p class="mb-2 me-md-3">
+                      <i class="fa-regular fa-calendar-days me-1"></i
+                      >{{ subcategory.date }}
+                    </p>
                   </div>
                   <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
-                    <span class="bg-primary p-2 px-3 rounded-pill shadow-sm text-white">
-                      <i class="fa-solid fa-user-tie me-1"></i> {{ subcategory.employeetype }}
+                    <span
+                      class="bg-primary p-2 px-3 rounded-pill shadow-sm text-white"
+                    >
+                      <i class="fa-solid fa-user-tie me-1"></i>
+                      {{ subcategory.employeetype }}
                     </span>
-                    
-                    <span class="bg-success p-2 px-3 rounded-pill shadow-sm text-white">
-                      <i class="fa-solid fa-clock me-1"></i> {{ subcategory.experience }}
+
+                    <span
+                      class="bg-success p-2 px-3 rounded-pill shadow-sm text-white"
+                    >
+                      <i class="fa-solid fa-clock me-1"></i>
+                      {{ subcategory.experience }}
                     </span>
                   </div>
                 </div>
               </div>
-            </div>   
+            </div>
           </div>
 
           <!-- No Subcategories -->
-          <div *ngIf="!showFilteredJobs && subcategories.length === 0" class="text-center mt-4">
+          <div
+            *ngIf="!showFilteredJobs && subcategories.length === 0"
+            class="text-center mt-4"
+          >
             <p>No subcategories found.</p>
           </div>
 
           <!-- Pagination -->
-          <div class="text-center mt-4">
+          <!-- <div class="text-center mt-4" *ngIf="(filteredJobs.length > 0 || showFilteredJobs || subcategories.length > 0) && totalPages > 1">
             <button
               class="btn btn-primary mx-2"
               (click)="loadPreviousPage()"
@@ -190,8 +264,57 @@
             >
               Next
             </button>
+          </div> -->
+
+          <!-- Pagination for Subcategories -->
+          <div
+            class="text-center mt-4"
+            *ngIf="
+              !showFilteredJobs && subcategories.length > 0 && totalPages > 1
+            "
+          >
+            <button
+              class="btn btn-primary mx-2"
+              (click)="loadPreviousPage('subcategory')"
+              [disabled]="currentPage === 1 || loading"
+            >
+              Previous
+            </button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button
+              class="btn btn-primary mx-2"
+              (click)="loadNextPage('subcategory')"
+              [disabled]="currentPage === totalPages || loading"
+            >
+              Next
+            </button>
           </div>
 
+          <!-- Pagination for Filtered Jobs -->
+          <div
+            class="text-center mt-4"
+            *ngIf="
+              showFilteredJobs &&
+              filteredJobs.length > 0 &&
+              totalFilteredPages > 1
+            "
+          >
+            <button
+              class="btn btn-primary mx-2"
+              (click)="loadPreviousPage('filtered')"
+              [disabled]="currentPage === 1 || loading"
+            >
+              Previous
+            </button>
+            <span>Page {{ currentPage }} of {{ totalFilteredPages }}</span>
+            <button
+              class="btn btn-primary mx-2"
+              (click)="loadNextPage('filtered')"
+              [disabled]="currentPage === totalFilteredPages || loading"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>

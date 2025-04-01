@@ -44,6 +44,9 @@ export class SearchResultComponent implements OnInit {
       (response: any)=>{
         if(response.success){
           this.jobResults = response.data;
+          this.jobResults.forEach(jobs=>{
+            jobs.dateposted = this.datePipe.transform(jobs.dateposted, 'yyyy-MM-dd');
+          })
           this.saveSearchState();
         }
         else {

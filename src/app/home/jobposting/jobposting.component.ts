@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobsService } from '../jobs.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-jobposting',
@@ -13,7 +14,7 @@ export class JobpostingComponent implements OnInit {
   currentUser: any = null;
   jobPostingLoaded: boolean = false;
 
-  constructor(private jobsService: JobsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private jobsService: JobsService, private route: ActivatedRoute, private router: Router,private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.postingId = +this.route.snapshot.paramMap.get('postingId')!;
@@ -37,32 +38,13 @@ export class JobpostingComponent implements OnInit {
         if (error.status === 401) { 
           console.warn('User is not authenticated');
           this.currentUser = null; 
-          this.fetchJobposting(); // Fetch job postings even if user is not logged in
+          this.fetchJobposting(); 
         } else {
           console.error('Failed to fetch current user:', error);
         }
       }
     );
   }
-  
-  // fetchCurrentUser(): void {
-  //   this.jobsService.getCurrentuser().subscribe(
-  //     (response: any) => {
-  //       this.currentUser = response.user;
-  //       this.currentUser.user_registerid = response.user.user_registerid;
-  //       this.fetchJobposting();
-  //       // console.log("user registerID : ",this.currentUser.id);
-  //     },
-  //     (response)=>{
-  //       if(response.success){
-  //         this.currentUser.user_registerid = response.data.user_registerid;
-  //         // console.log("user register : ",this.currentUser.id);
-  //       }else{
-  //         console.error("Failed to fetch current user");
-  //       }
-  //     },
-  //   );  
-  // }
   fetchJobposting(): void {
     this.jobPostingLoaded = false;
     this.jobsService.getJobpostingBySubcategories(this.postingId, 10, 0).subscribe((response) => {
@@ -73,26 +55,20 @@ export class JobpostingComponent implements OnInit {
           ...job,
           isApplied: false
         }));
+        this.jobPosting.forEach(job=>{
+          job.dateposted = this.datePipe.transform(job.dateposted, 'yyyy-MM-dd');
+        });
+        this.jobPosting.forEach(jobs=>{
+          jobs.expiredate = this.datePipe.transform(jobs.expiredate, 'yyyy-MM-dd');
+        })
         this.checkAppliedJobs();
       }
     });
   }
-  // checkAppliedJobs():void {
-  //   if(!this.currentUser?.id) return;
-
-  //   this.jobPosting.forEach(job =>{
-  //     this.jobsService.checkApplicationStatus(this.currentUser.id, job.jobposting_id)
-  //       .subscribe(response => {
-  //         if (response.success && response.applied) {
-  //           job.isApplied = true;
-  //         }
-  //       });
-  //   });
-  // }
   checkAppliedJobs(): void {
     // if (!this.currentUser?.user_registerid) return;
     if (!this.currentUser?.user_registerid) {
-      this.jobPostingLoaded = true; // Mark as loaded even if no user is logged in
+      this.jobPostingLoaded = true; 
       return;
     }
 

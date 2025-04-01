@@ -29,7 +29,7 @@ export class JobApplicationsComponent implements OnInit {
         this.currentPage = res.currentPage;
         this.appliedJobs.forEach(applyJobs=>{
           applyJobs.application_date = this.datePipe.transform(applyJobs.application_date, 'yyyy-MM-dd');
-        })
+        });
         this.errorMessage ='';
       }else{
         this.errorMessage = "Failed to load applied jobs";

@@ -22,8 +22,11 @@ export class JobListComponent implements OnInit, AfterViewInit {
   limit: number = 10;
   offset: number = 0;
   loading: boolean = false;
+  totalCount: number = 0;
+  totalFilteredCount: number = 0;
   currentPage: number = 1;
-  totalPages: number = 1;  
+  totalPages: number = 1; 
+  totalFilteredPages: number = 1; 
   
   jobTypes = [
     {name: 'Full-time', value: 'Full Time'},
@@ -33,7 +36,8 @@ export class JobListComponent implements OnInit, AfterViewInit {
     {name: 'Contract', value: 'Contract'}
   ];
   jobExperiences = [
-    { name: 'Fresher', value: 'fresher' },        
+    { name: 'Fresher', value: 'fresher' },
+    { name: '0-1 years', value: '0'},        
     { name: '1-3 Years', value: '1' },       
     { name: '2-4 Years', value: '2' },
     { name: '3-5 Years', value: '3' },
@@ -51,23 +55,22 @@ export class JobListComponent implements OnInit, AfterViewInit {
     } else {
       this.getSubcategories();
     }
-    // this.getJobs();
     this.route.params.subscribe(params => {
       this.jobcategory_id = +params['id'];
       this.getSubcategories();
       
     });
     if (this.isFilterApplied()) {
-      this.getJobs();
+      this.getFilteredJobs();
     }
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
       const filters = localStorage.getItem('jobFilters');
       if (filters) {
-        this.getJobs();
+        this.getFilteredJobs();
       }
-      this.cdRef.detectChanges();  // Ensures UI is updated
+      this.cdRef.detectChanges();
     });
   }
   filterForm(){
@@ -103,8 +106,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
     }
   );
   }
- //Fetch Filtered Jobs
- getJobs() {
+ getFilteredJobs() {
   this.loading = true;
   const filters = this.getFilterData();
 
@@ -112,10 +114,14 @@ export class JobListComponent implements OnInit, AfterViewInit {
     (res: any) => {
       if (res.success && res.data.length > 0) {
         this.filteredJobs = res.data;
-        this.totalPages = Math.ceil(res.totalCount / this.limit);
+        this.totalFilteredCount = res.totalCount; 
+        this.totalFilteredPages = Math.ceil(res.totalCount / this.limit); 
         this.showFilteredJobs = true;
         this.showNoResultMessage = false; 
-        this.showClearButton = true;       
+        this.showClearButton = true;   
+        if (this.currentPage > this.totalFilteredPages) {
+          this.currentPage = this.totalFilteredPages;
+        }    
       } else {
         this.filteredJobs = [];
         this.showFilteredJobs = false;
@@ -129,7 +135,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
       this.loading = false;
 
       if (error.status === 404) {
-        console.log('No results found');
+        // console.log('No results found');
         this.filteredJobs = [];
         this.showFilteredJobs = false; 
         this.showNoResultMessage = true; 
@@ -142,18 +148,16 @@ export class JobListComponent implements OnInit, AfterViewInit {
     }
   );
 }
-  // Apply Filters
-  applyFilters(): void {
+applyFilters(): void {
     if (!this.isFilterApplied()) {
       this.clearFilters();
       return;
     }
     const filters = this.getFilterData();
     localStorage.setItem('jobFilters', JSON.stringify(filters));
-    this.getJobs();
+    this.getFilteredJobs();
 
     if (!this.isFilterApplied()) {
-      //If no filters, only load subcategories
       this.showFilteredJobs = false;
       this.getSubcategories();
       return;
@@ -163,8 +167,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
       (res: any) => {
         if (res.success) {
           this.filteredJobs = res.data;
-          this.totalPages = Math.ceil(res.totalCount / this.limit);
-          this.showFilteredJobs = true;  //Show filtered jobs only when filters are applied
+          this.showFilteredJobs = true;  
           this.showClearButton = true;
         } else {
           console.error('Failed to fetch filtered jobs');
@@ -189,7 +192,6 @@ export class JobListComponent implements OnInit, AfterViewInit {
     const filters = localStorage.getItem('jobFilters');
     if (filters) {
       const parsedFilters = JSON.parse(filters);
-// Patch values dynamically to form
       this.jobFilterForm.patchValue({
         jobtitle: parsedFilters.jobtitle || '',
         job_location: parsedFilters.job_location || ''
@@ -214,7 +216,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
         });
       }
 
-      this.getJobs();  
+      this.getFilteredJobs();  
     }
   }
 
@@ -234,7 +236,6 @@ export class JobListComponent implements OnInit, AfterViewInit {
       this.offset = filters.offset || this.offset;
     }
   }
-  // Helper method to restore FormArray from saved filters
   restoreFormArray(arrayName: string, values: any[]) {
     const formArray = this.jobFilterForm.get(arrayName) as FormArray;
     formArray.clear();
@@ -242,26 +243,20 @@ export class JobListComponent implements OnInit, AfterViewInit {
   }
   getFilterData() {
     const filters: any = {};
-
-    // Add only non-empty filters to the object
     const jobTitle = this.jobFilterForm.get('jobtitle')?.value;
     if (jobTitle) filters.jobtitle = jobTitle;
-
     const jobLocation = this.jobFilterForm.get('job_location')?.value;
     if (jobLocation) filters.job_location = jobLocation;
-
     const employeetypeArray = this.jobFilterForm.get('employeetype')?.value;
     if (employeetypeArray && employeetypeArray.length > 0) {
       filters.employeetype = employeetypeArray;
     }
-
     const experienceArray = this.jobFilterForm.get('experience')?.value;
     if (experienceArray && experienceArray.length > 0) {
       filters.experience = experienceArray;
     }
-
     filters.limit = this.limit;
-    filters.offset = this.offset;
+    filters.offset = (this.currentPage - 1) * this.limit;;
 
     return filters;
   }
@@ -289,7 +284,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
   }
   onCheckBoxChangeExperience(event: any) {
     const jobexperienceArray: FormArray = this.jobFilterForm.get('experience') as FormArray;
-    const value = event.target.value.trim().toLowerCase();  // Normalize value
+    const value = event.target.value.trim().toLowerCase(); 
   
     if (event.target.checked) {
       if (!jobexperienceArray.value.includes(value)) {
@@ -319,18 +314,29 @@ export class JobListComponent implements OnInit, AfterViewInit {
   viewJobposting(postingId: number): void {
     this.router.navigate(['/home/jobposting', postingId]);
   }
-  loadNextPage() {
-    if (this.currentPage < this.totalPages) {
+  loadNextPage(pageType: string) {
+    if (pageType === 'subcategory' && this.currentPage < this.totalPages) {
       this.currentPage++;
       this.offset = (this.currentPage - 1) * this.limit;
-      this.getJobs();
+      this.getSubcategories();
+    } else if (pageType === 'filtered' && this.currentPage < this.totalFilteredPages) {
+      this.currentPage++;
+      console.log("Next Page:", this.currentPage);
+      this.offset = (this.currentPage - 1) * this.limit;
+      this.getFilteredJobs();
     }
   }
-  loadPreviousPage() {
-    if (this.currentPage > 1) {
+  
+  loadPreviousPage(pageType: string) {
+    if (pageType === 'subcategory' && this.currentPage > 1) {
       this.currentPage--;
       this.offset = (this.currentPage - 1) * this.limit;
-      this.getJobs();
+      this.getSubcategories();
+    } else if (pageType === 'filtered' && this.currentPage > 1) {
+      this.currentPage--;
+      console.log("Previous Page:", this.currentPage);
+      this.offset = (this.currentPage - 1) * this.limit;
+      this.getFilteredJobs();
     }
   }
 }
