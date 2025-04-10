@@ -51,7 +51,7 @@ export class AllApplicationsComponent implements OnInit {
               job.application_date = this.datePipe.transform(job.application_date, 'yyyy-MM-dd');
             }
             if (job.resume_path) {
-              job.resume_path = `http://localhost:3000/uploads/resumes/${job.resume_path}`;
+              job.resume_path = `https://careerlink-jobportal-backend-production.up.railway.app/uploads/resumes/${job.resume_path}`;
             }
             return job;
           });

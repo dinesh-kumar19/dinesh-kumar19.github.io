@@ -18,7 +18,7 @@ export class CompanyDashboardComponent implements OnInit {
       (response: any) => {
         this.currentCompany = response.company;
         if (this.currentCompany.company_logo) {
-          this.currentCompany.logoUrl = `http://localhost:3000/uploads/companylogos/${this.currentCompany.company_logo}`;
+          this.currentCompany.logoUrl = `https://careerlink-jobportal-backend-production.up.railway.app/uploads/companylogos/${this.currentCompany.company_logo}`;
         }else {
           this.currentCompany = 'assets/profile/profile_pic.png';
         }

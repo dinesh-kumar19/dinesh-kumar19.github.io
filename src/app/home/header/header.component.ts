@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit {
   setProfileImage() {
     if (this.loginUser.user_profile && this.loginUser.user_profile.trim() !== '' && 
     this.loginUser.user_profile !== 'default.jpg') {
-      this.profileImage = `http://localhost:3000/uploads/user_Profiles/${this.loginUser.user_profile}`;
+      this.profileImage = `https://careerlink-jobportal-backend-production.up.railway.app/uploads/user_Profiles/${this.loginUser.user_profile}`;
     } else {
       this.profileImage = 'assets/profile/profile_pic.png'; 
     }
