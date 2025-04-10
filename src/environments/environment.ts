@@ -2,12 +2,9 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-// export const environment = {
-//   production: false
-// };
 export const environment = {
   production: false,
-  apiUrl: 'https://careerlink-jobportal-backend.onrender.com/api/jobpostings'
+  apiUrl: 'http://localhost:3000/api'
 };
 
 /*
@@ -18,3 +15,10 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+
+
+
+// export const environment = {
+//   production: false,
+//   apiUrl: 'https://careerlink-jobportal-backend.onrender.com/api/jobpostings'
+// };
