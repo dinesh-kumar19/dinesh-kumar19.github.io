@@ -165,7 +165,7 @@ export class LoginComponent implements OnInit {
     formData.append('jobseekerLocation', this.formValue.jobseekerLocation);
     formData.append('jobseekerProfile', this.formValue.jobseekerProfile);
     formData.append('resume_path', this.formValue.jobseekerResume);
-    this.http.post('http://localhost:3000/api/jobpostings/userRegister', formData).subscribe((response: any) => {
+    this.http.post('https://careerlink-jobportal-backend-production.up.railway.app/api/jobpostings/userRegister', formData).subscribe((response: any) => {
       alert('Register Successful');
       this.jobSeekerForm.reset();
       this.resetProfileInput();
@@ -207,7 +207,7 @@ export class LoginComponent implements OnInit {
     }
   }
     loginAsUser(loginData: any): void{
-      this.http.post('http://localhost:3000/api/jobpostings/userLogin', {
+      this.http.post('https://careerlink-jobportal-backend-production.up.railway.app/api/jobpostings/userLogin', {
         loginEmail_id: loginData.loginEmail_id,
         login_Password: loginData.login_Password
       },{ withCredentials: true })
@@ -229,7 +229,7 @@ export class LoginComponent implements OnInit {
       });
     }
     loginAsCompany(loginData: any): void {
-      this.http.post('http://localhost:3000/api/jobpostings/companyLogin',
+      this.http.post('https://careerlink-jobportal-backend-production.up.railway.app/api/jobpostings/companyLogin',
       {
         loginEmail_id: loginData.loginEmail_id,
         login_Password: loginData.login_Password,
@@ -276,7 +276,7 @@ export class LoginComponent implements OnInit {
       formDataProvider.append('jobproviderWebsite', this.formValue.jobproviderWebsite);
       formDataProvider.append('company_logo', this.formValue.jobproviderLogo);
 
-      this.http.post('http://localhost:3000/api/jobpostings/companyRegister', formDataProvider).subscribe((response: any) => {
+      this.http.post('https://careerlink-jobportal-backend-production.up.railway.app/api/jobpostings/companyRegister', formDataProvider).subscribe((response: any) => {
         alert('Register Successful');
         this.jobProviderForm.reset();
         this.resetLogoInput();
