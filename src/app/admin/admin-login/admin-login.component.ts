@@ -37,7 +37,7 @@ export class AdminLoginComponent implements OnInit {
     this.loginAsAdmin(adminLoginData);
   }
   loginAsAdmin(adminLoginData: any): void {
-    this.http.post('http://localhost:3000/api/jobpostings/loginAdmin',
+    this.http.post('https://careerlink-jobportal-backend-production.up.railway.app/api/jobpostings/loginAdmin',
     {
       admin_email: adminLoginData.adminEmail_id,
       admin_password: adminLoginData.admin_Password,
