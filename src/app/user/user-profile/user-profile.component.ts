@@ -65,13 +65,13 @@ export class UserProfileComponent implements OnInit {
         });
         if (this.loggedUser.user_profile && this.loggedUser.user_profile.trim() !== '' && 
           this.loggedUser.user_profile !== 'default.jpg') {
-            this.profileImage = `http://localhost:3000/uploads/user_Profiles/${this.loggedUser.user_profile}`;
+            this.profileImage = `https://careerlink-jobportal-backend-production.up.railway.app/uploads/user_Profiles/${this.loggedUser.user_profile}`;
         } else {
             this.profileImage = 'assets/profile/profile_pic.png'; 
         }
 
         if(this.loggedUser.resume_path){
-          this.loggedUser.resume_path = `http://localhost:3000/uploads/resumes/${this.loggedUser.resume_path}`;
+          this.loggedUser.resume_path = `https://careerlink-jobportal-backend-production.up.railway.app/uploads/resumes/${this.loggedUser.resume_path}`;
         } else {
           this.resumeUrl = '';
       
