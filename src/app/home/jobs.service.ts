@@ -159,7 +159,7 @@ export class JobsService {
       page: page});
   }
   getApplicationsByUser(user_id: number, limit: number, page: number): Observable<any>{
-    return this.http.post(`${environment.apiUrl}/api/jobpostings/getApplicationsByUser`,{user_id, limit: limit, page: page});
+    return this.http.post(`${environment.apiUrl}/jobpostings/getApplicationsByUser`,{user_id, limit: limit, page: page});
   }
   deleteUserApplication(job_applicationID: number, user_id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/jobpostings/deleteUserApplication?job_applicationID=${job_applicationID}&user_id=${user_id}`);
